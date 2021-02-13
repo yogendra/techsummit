@@ -1,0 +1,3 @@
+[submodule "acme_fitness_demo"]
+	path = acme_fitness_demo
+	url = git@github.com:yogendra/acme_fitness_demo.git
