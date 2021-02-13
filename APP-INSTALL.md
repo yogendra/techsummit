@@ -85,7 +85,7 @@ You can follow environemnt specific instruction for this:
     ```
 1.  Generate ingress config
     ```bash
-    sed  "s/frontend.domain/frontend-acme-fitness.$APP_DOMAIN/g" $APP_ROOT/kubernetes-manifests/frontend-ingress.yaml > frontend-ingress.yaml
+    sed  "s/frontend.domain/frontend-acme-fitness.$ENV_DOMAIN/g" $APP_ROOT/kubernetes-manifests/frontend-ingress.yaml > frontend-ingress.yaml
     ```
 1.  Update ingress config if you need to chage the issuer from `letsencrypt-prod` to somethins else
     - In case of local KiND deploy, you might be using `mkcert-root-ca`
@@ -104,7 +104,7 @@ You can follow environemnt specific instruction for this:
     ```
 1.  Generate pos-config
     ```bash
-    sed  "s/frontend.domain/frontend-acme-fitness.$APP_DOMAIN/g" $APP_ROOT/kubernetes-manifests/pos-config.yaml > pos-config.yaml
+    sed  "s/frontend.domain/frontend-acme-fitness.$ENV_DOMAIN/g" $APP_ROOT/kubernetes-manifests/pos-config.yaml > pos-config.yaml
     kubectl apply -f pos-config.yaml
     ```
 1.  Restart deployment
@@ -113,7 +113,7 @@ You can follow environemnt specific instruction for this:
     ```
 1.  Generate ingress config
     ```bash
-    sed  "s/pos.domain/pos-acme-fitness.$APP_DOMAIN/g" $APP_ROOT/kubernetes-manifests/pos-ingress.yaml > ./pos-ingress.yaml
+    sed  "s/pos.domain/pos-acme-fitness.$ENV_DOMAIN/g" $APP_ROOT/kubernetes-manifests/pos-ingress.yaml > pos-ingress.yaml
     ```
 1.  Update ingress config if you need to chage the issuer from `letsencrypt-prod` to somethins else
     - In case of local KiND deploy, you might be using `mkcert-root-ca`
