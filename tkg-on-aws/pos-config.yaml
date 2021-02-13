@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: pos-config
-data:
-  frontend-service: 'frontend-acme-fitness.tkgaws.cna-demo.ga'
