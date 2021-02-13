@@ -1,4 +1,4 @@
-# Install ACME Fitness 
+# Install ACME Fitness
 
 
 ## Deploy application
@@ -49,7 +49,7 @@ You can follow environemnt specific instruction for this:
     ```bash
     kubectl apply -f $APP_ROOT/kubernetes-manifests/payment-total.yaml
     ```
-  
+
 ### Order Service
 1.  Create postgres password
     ```bash
@@ -83,22 +83,46 @@ You can follow environemnt specific instruction for this:
     ```bash
     kubectl apply -f $APP_ROOT/kubernetes-manifests/frontend-total.yaml
     ```
-1.  Deploy frontend ingress
+1.  Generate ingress config
     ```bash
+    sed  "s/frontend.domain/frontend-acme-fitness.$APP_DOMAIN/g" $APP_ROOT/kubernetes-manifests/frontend-ingress.yaml > frontend-ingress.yaml
+    ```
+1.  Update ingress config if you need to chage the issuer from `letsencrypt-prod` to somethins else
+    - In case of local KiND deploy, you might be using `mkcert-root-ca`
+    ```bash
+    sed  -i "s/letsencrypt-prod/mkcert-root-ca/g"  frontend-ingress.yaml
+    ```
+
+
+1.  Deploy frontend ingress
+    ```
     kubectl apply -f frontend-ingress.yaml
     ```
 1.  Deploy Point of Sale
     ```bash
     kubectl apply -f $APP_ROOT/kubernetes-manifests/point-of-sales-total.yaml
     ```
-1.  Updatee pos-config and restart deployment
+1.  Generate pos-config
     ```bash
+    sed  "s/frontend.domain/frontend-acme-fitness.$APP_DOMAIN/g" $APP_ROOT/kubernetes-manifests/pos-config.yaml > pos-config.yaml
     kubectl apply -f pos-config.yaml
+    ```
+1.  Restart deployment
+    ```bash
     kubectl rollout restart deployment pos
+    ```
+1.  Generate ingress config
+    ```bash
+    sed  "s/pos.domain/pos-acme-fitness.$APP_DOMAIN/g" $APP_ROOT/kubernetes-manifests/pos-ingress.yaml > ./pos-ingress.yaml
+    ```
+1.  Update ingress config if you need to chage the issuer from `letsencrypt-prod` to somethins else
+    - In case of local KiND deploy, you might be using `mkcert-root-ca`
+    ```bash
+    sed  -i "s/letsencrypt-prod/mkcert-root-ca/g"  pos-ingress.yaml
     ```
 
 1.  Deploy pos ingress
-    ```bash    
+    ```
     kubectl apply -f pos-ingress.yaml
     ```
 
