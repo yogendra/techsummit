@@ -1,5 +1,10 @@
+# TKG on AWS Setup
 
-# Tech Summit - AWS EKS Cluster
+## Initialize environment
+
+    ```
+    direnv allow
+    ```
 
 ## Setup Cluster
 1.  Create cluster from TMC
@@ -8,11 +13,11 @@
 
 1.  Wait for a long time
 
-1.  Download kubeconfig file into current director `tkgaws-1`
+1.  Download kubeconfig file into current directory `tkg-on-aws`
     - TMC -> Cluster 
-    - Select yogi-demo-ts-prod 
+    - Select cluster created in earlier step
     - In "Actions" menu -> Click "Access this cluster"
-    - Download kube config into current directory
+    - Download kubernetes config into current directory
     - Rename to .kubeconfig
 
 
@@ -25,11 +30,11 @@
 
     Configure route 53 to point to LB
     ```bash
-    route53-update.sh tkgaws.cna-demo.ga Z00790433JF8Q9KA66EHM $(kubectl get svc -n projectcontour envoy -o "jsonpath={.status.loadBalancer.ingress[0].hostname}")
+    route53-update.sh $ENV_DOMAIN $HOSTED_ZONE_ID $(kubectl get svc -n projectcontour envoy -o "jsonpath={.status.loadBalancer.ingress[0].hostname}")
     ```
     or in Fish
     ```bash
-    route53-update.sh tkgaws.cna-demo.ga Z00790433JF8Q9KA66EHM (kubectl get svc -n projectcontour envoy -o "jsonpath={.status.loadBalancer.ingress[0].hostname}")
+    route53-update.sh $ENV_DOMAIN $HOSTED_ZONE_ID (kubectl get svc -n projectcontour envoy -o "jsonpath={.status.loadBalancer.ingress[0].hostname}")
     ```
 
 1.  Cert manager
