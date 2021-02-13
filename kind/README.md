@@ -32,18 +32,13 @@
     kubectl apply -f https://projectcontour.io/quickstart/contour.yaml
     ```
 
-    On Kind you need to allow scheduling on master node.
-
-    ```bash
-    kubectl patch daemonsets -n projectcontour envoy -p '{"spec":{"template":{"spec":{"nodeSelector":{"ingress-ready":"true"},"tolerations":[{"key":"node-role.kubernetes.io/master","operator":"Equal","effect":"NoSchedule"}]}}}}'
-    ```
 1.  Update DNS 
-    - local.cna-demo.ga -> localhost
-    - *.local.cna-demo.ga -> localhost
+    - local.cna-demo.ga -> localmachine ip
+    - *.local.cna-demo.ga -> localmachine ip
     
     Example:
     ```bash
-    route53-update.sh $ENV_DOMAIN $HOSTED_ZONE_ID localhost
+    route53-update.sh $ENV_DOMAIN $HOSTED_ZONE_ID 192.168.86.103 A
     ```
 
 1.  Install Cert Manager
@@ -60,8 +55,8 @@
 1.  Create secret with AWS credentials for Route-53 resolvers
 
     ```bash    
-     kubectl create secret generic aws-credentials-secret -n cert-manager --from-literal=access-key-id=$AWS_ACCESS_KEY_ID --from-literal=secret-access-key=$AWS_SECRET_ACCESS_KEY
-     ```
+    kubectl create secret generic aws-credentials-secret -n cert-manager --from-literal=access-key-id=$AWS_ACCESS_KEY_ID --from-literal=secret-access-key=$AWS_SECRET_ACCESS_KEY
+    ```
 
 1.  Generate `lets-encrypt-issuers-dns.yaml`     
     ```bash
