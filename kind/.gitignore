@@ -1,3 +1,4 @@
 frontend-ingress.yaml
 pos-ingress.yaml
 pos-config.yaml
+letsencrypt-issuers-dns.yaml
