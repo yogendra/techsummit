@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: pos
+  labels:
+    app: acmefit
+    service: pos
+  annotations:
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+
+spec:
+  tls:
+    - secretName: pos-tls
+      hosts:
+        - pos-acme-fitness.aws.cna-demo.ga
+  rules:
+    - host: pos-acme-fitness.aws.cna-demo.ga
+      http:
+        paths:
+          - backend:
+              serviceName: pos
+              servicePort: http-pos
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pos
+  labels:
+    app: acmefit
+    service: pos
+spec:
+  ports:
+    - name: http-pos
+      protocol: TCP
+      port: 7777
+      targetPort: 7777
+  selector:
+    app: acmefit
+    service: pos
+  type: ClusterIP
