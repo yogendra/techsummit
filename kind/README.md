@@ -51,62 +51,24 @@
     ```bash
     kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
     ```
-
-1.  Create cluster issuer with your own cert manager ca certs
-
-    ```bash
-    kubectl -n cert-manager create secret tls  mkcert-root-ca-cert   --cert="$(mkcert -CAROOT)/rootCA.pem" --key="$(mkcert -CAROOT)/rootCA-key.pem"
-    kubectl -n cert-manager create -f mkcert-root-ca.yaml
+1.  Set you aws key and secret  in `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variable
     ```
-1.  (Optional) Test the cluster issuer by creating a certificate
-
-    ```bash
-    kubectl -n cert-manager create -f test-cert.yaml
+    export AWS_ACCESS_KEY_ID=...
+    export AWS_SECRET_ACCESS_KEY=...    
     ```
+1.  Create secret with AWS credentials for Route-53 resolvers
 
-    Check certificatew is ready
+    ```bash    
+     kubectl create secret generic aws-credentials-secret -n cert-manager --from-literal=access-key-id=$AWS_ACCESS_KEY_ID --from-literal=secret-access-key=$AWS_SECRET_ACCESS_KEY
+     ```
+
+1.  Generate `lets-encrypt-issuers-dns.yaml`     
     ```bash
-    kubectl get secret,certificate,csr,order -n cert-manager
+    sed "s/MY_EMAIL/$MY_EMAIL/g;s/AWS_ACCESS_KEY_ID/$AWS_ACCESS_KEY_ID/g;s/AWS_REGION/$AWS_REGION/g" letsencrypt-issuers-dns.template.yaml  > letsencrypt-issuers-dns.yaml
     ```
-    Output:
+1.  Create Cluster Issuer
     ```bash
-    NAME                                         TYPE                                  DATA   AGE
-    secret/cert-manager-cainjector-token-pxjwx   kubernetes.io/service-account-token   3      22m
-    secret/cert-manager-token-8xkcd              kubernetes.io/service-account-token   3      22m
-    secret/cert-manager-webhook-ca               Opaque                                3      22m
-    secret/cert-manager-webhook-token-k5zt5      kubernetes.io/service-account-token   3      22m
-    secret/default-token-92pv5                   kubernetes.io/service-account-token   3      22m
-    secret/mkcert-root-ca-cert                   kubernetes.io/tls                     2      16m
-    secret/test-certs                            kubernetes.io/tls                     3      11m
-
-    NAME                               READY   SECRET       AGE
-    certificate.cert-manager.io/test   True    test-certs   11m
-
-    NAME                                                      AGE   SIGNERNAME                                    REQUESTOR                        CONDITION
-    certificatesigningrequest.certificates.k8s.io/csr-lphnp   42m   kubernetes.io/kube-apiserver-client-kubelet   system:node:kind-control-plane   Approved,Issued
-    ```
-
-    Delete test certificate and secrets
-    ```bash
-    kubectl  -n cert-manager delete certificate test
-    kubectl  -n cert-manager delete secret test-certs
-    ```
-    Check test certs are deletes
-    ```bash
-    kubectl get secret,certificate,csr,order -n cert-manager
-    ```
-    Output:
-    ```bash
-    NAME                                         TYPE                                  DATA   AGE
-    secret/cert-manager-cainjector-token-pxjwx   kubernetes.io/service-account-token   3      25m
-    secret/cert-manager-token-8xkcd              kubernetes.io/service-account-token   3      25m
-    secret/cert-manager-webhook-ca               Opaque                                3      24m
-    secret/cert-manager-webhook-token-k5zt5      kubernetes.io/service-account-token   3      25m
-    secret/default-token-92pv5                   kubernetes.io/service-account-token   3      25m
-    secret/mkcert-root-ca-cert                   kubernetes.io/tls                     2      18m
-
-    NAME                                                      AGE   SIGNERNAME                                    REQUESTOR                        CONDITION
-    certificatesigningrequest.certificates.k8s.io/csr-lphnp   45m   kubernetes.io/kube-apiserver-client-kubelet   system:node:kind-control-plane   Approved,Issued
+    kubectl apply -f letsencrypt-issuers-dns.yaml
     ```
 
 ## Application Installation
