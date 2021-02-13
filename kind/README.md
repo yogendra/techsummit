@@ -1,5 +1,11 @@
-# ACME fitness on KiND
+# KiND Setup
 
+## Initialize environment
+
+    ```
+    direnv allow
+    ```
+    
 ## Setup cluster
 
 1.  Create kind cluster with ingress
@@ -7,12 +13,26 @@
     ```bash
     kind create cluster --config=kind.yaml
     ```
+
+1.  Attach cluster to TMC
+    - Goto TMC 
+    - Cluster - > Click "Attach Cluster"
+    - Follow the instruction
+        - Provide a Name
+        - Cluster Group
+        - Description
+        - Tags
+    - Click Next
+    - Get command for "Agent Installation"  and run it on the same command prompt where you ran `kind`
+
+## Install Essentials
+
 1.  Create Ingress controller (Contour)
     ```bash
     kubectl apply -f https://projectcontour.io/quickstart/contour.yaml
     ```
 
-    On Kind you need to hack the contour to trick it into scheduling on master node.
+    On Kind you need to allow scheduling on master node.
 
     ```bash
     kubectl patch daemonsets -n projectcontour envoy -p '{"spec":{"template":{"spec":{"nodeSelector":{"ingress-ready":"true"},"tolerations":[{"key":"node-role.kubernetes.io/master","operator":"Equal","effect":"NoSchedule"}]}}}}'
@@ -22,8 +42,8 @@
     - *.local.cna-demo.ga -> localhost
     
     Example:
-    ```
-    route53-update.sh local.cna-demo.ga Z00790433JF8Q9KA66EHM localhost
+    ```bash
+    route53-update.sh $ENV_DOMAIN $HOSTED_ZONE_ID localhost
     ```
 
 1.  Install Cert Manager
@@ -38,7 +58,7 @@
     kubectl -n cert-manager create secret tls  mkcert-root-ca-cert   --cert="$(mkcert -CAROOT)/rootCA.pem" --key="$(mkcert -CAROOT)/rootCA-key.pem"
     kubectl -n cert-manager create -f mkcert-root-ca.yaml
     ```
-1.  Test the cluster issuer by creating a certificate
+1.  (Optional) Test the cluster issuer by creating a certificate
 
     ```bash
     kubectl -n cert-manager create -f test-cert.yaml
@@ -88,11 +108,6 @@
     NAME                                                      AGE   SIGNERNAME                                    REQUESTOR                        CONDITION
     certificatesigningrequest.certificates.k8s.io/csr-lphnp   45m   kubernetes.io/kube-apiserver-client-kubelet   system:node:kind-control-plane   Approved,Issued
     ```
-
-1.  Attach to TMC
-    - Goto TMC
-    - Follow the "Attach" procedure
-    - Get the kubectl command and run on terminal
 
 ## Application Installation
 
