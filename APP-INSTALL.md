@@ -6,8 +6,9 @@ Following instructions from the [ACME fitness Git repo][acme-gitrepo].
 
 ### Pre-requisites:
 1.  Ingress Controller - Contour Setup
-2.  Cert Manager is Setup
-3.  DNS is configured to point to ingress controller external/load balancer IP
+2.  DNS is configured to point to ingress controller external/load balancer IP
+3.  Cert Manager is Setup
+4.  Cluster issuer `letsencrypt-prod` and `letencrypt-staging` are setup
 
 You can follow environemnt specific instruction for this:
 1. [KiND](kind-1/README.md)
@@ -87,12 +88,6 @@ You can follow environemnt specific instruction for this:
     ```bash
     sed  "s/frontend.domain/frontend-acme-fitness.$ENV_DOMAIN/g" $APP_ROOT/kubernetes-manifests/frontend-ingress.yaml > frontend-ingress.yaml
     ```
-1.  Update ingress config if you need to chage the issuer from `letsencrypt-prod` to somethins else
-    - In case of local KiND deploy, you might be using `mkcert-root-ca`
-    ```bash
-    sed  -i "s/letsencrypt-prod/mkcert-root-ca/g"  frontend-ingress.yaml
-    ```
-
 
 1.  Deploy frontend ingress
     ```
@@ -115,12 +110,6 @@ You can follow environemnt specific instruction for this:
     ```bash
     sed  "s/pos.domain/pos-acme-fitness.$ENV_DOMAIN/g" $APP_ROOT/kubernetes-manifests/pos-ingress.yaml > pos-ingress.yaml
     ```
-1.  Update ingress config if you need to chage the issuer from `letsencrypt-prod` to somethins else
-    - In case of local KiND deploy, you might be using `mkcert-root-ca`
-    ```bash
-    sed  -i "s/letsencrypt-prod/mkcert-root-ca/g"  pos-ingress.yaml
-    ```
-
 1.  Deploy pos ingress
     ```
     kubectl apply -f pos-ingress.yaml
