@@ -1,3 +1,5 @@
 .kubeconfig
 bin/*
 !bin/.gitkeep
+!bin/route53-update.sh
+
