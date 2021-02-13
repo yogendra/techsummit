@@ -12,7 +12,7 @@ There are 3 different environments setup in this.
 
 ## Requirement
 1.  Own Domain
-    - Get a free domain from [freenom](httpw://www.freenom.com) if you don't have one.
+    - Get a free domain from [freenom](http://www.freenom.com) if you don't have one.
 1.  AWS
     1.  AWS Account with Admin Access
     1.  AWS Programmatic Access (Access Key and Secret Key)
