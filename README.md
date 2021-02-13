@@ -32,9 +32,6 @@ There are 3 different environments setup in this.
     1.  Mac / Linux / WSL - need `bash` shell
     1.  [direnv](https://direnv.net/)
         - Unclutter your shell profile
-    1.  [mkcert](http://mkcert.dev/)
-        - This is easy way to create selfsigned CA and server certs (read again)
-
 ## How to get started
 
 1.  Clone and detach 
@@ -46,7 +43,8 @@ There are 3 different environments setup in this.
 1.  Edit `.envrc` and update following variables
     - HOSTED_ZONE_ID - Put you Route 53 hosted zone id
     - ROOT_DOMAIN - Root domain for the demo. All the environemnes would be configured under this domain=. Example: aws.ROOT_DOMAIN, local.ROOT_DOMAIN, etc.
-    
+    - MY_EMAIL - Used in issueing TLS certificates from letsencrypt (cert-manager)
+    - AWS_REGION - Used in issueing TLS certificates from letsencrypt (cert-manager)
 1.  Initialize env
 
     ```
