@@ -83,9 +83,9 @@ You can follow environemnt specific instruction for this:
     ```bash
     kubectl apply -f $APP_ROOT/kubernetes-manifests/frontend-total.yaml
     ```
-1.  Deploy frontend service and ingress
+1.  Deploy frontend ingress
     ```bash
-    kubectl apply -f frontend-service.yaml
+    kubectl apply -f frontend-ingress.yaml
     ```
 1.  Deploy Point of Sale
     ```bash
@@ -97,9 +97,9 @@ You can follow environemnt specific instruction for this:
     kubectl rollout restart deployment pos
     ```
 
-1.  Deploy pos service and ingress
+1.  Deploy pos ingress
     ```bash    
-    kubectl apply -f pos-service.yaml
+    kubectl apply -f pos-ingress.yaml
     ```
 
 [acme-gitrepo]: https://github.com/yogendra/acme_fitness_demo/tree/master/kubernetes-manifests
