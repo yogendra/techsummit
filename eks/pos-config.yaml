@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: pos-config
 data:
-  frontend-service: 'frontend-acme-fitness.aws.cna-demo.ga'
+  frontend-service: frontend-acme-fitness.aws.cna-demo.ga
