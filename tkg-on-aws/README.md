@@ -44,7 +44,7 @@
 
 1.  Craete Cluster Issuers for Let's Encrypt CA (staging and prod)
     ```
-    kubectl apply -f letencrypt-issuers.yaml
+    kubectl apply -f ../letencrypt-issuers.yaml
     ```
 
 
