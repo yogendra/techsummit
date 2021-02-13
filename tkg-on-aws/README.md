@@ -35,6 +35,11 @@
         --user=system:serviceaccount:projectcontour:envoy \
         -n projectcontour
     ```
+1.  You will need to trigger restart of daemonset envoy
+    ```bash
+    kubectl -n projectcontour  rollout restart ds envoy
+    ```
+
 1.  Configure route 53 to point to LB
     ```bash
     route53-update.sh $ENV_DOMAIN $HOSTED_ZONE_ID $(kubectl get svc -n projectcontour envoy -o "jsonpath={.status.loadBalancer.ingress[0].hostname}")
