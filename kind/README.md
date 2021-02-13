@@ -56,6 +56,7 @@
     export AWS_ACCESS_KEY_ID=...
     export AWS_SECRET_ACCESS_KEY=...    
     ```
+    
 1.  Create secret with AWS credentials for Route-53 resolvers
 
     ```bash    
@@ -66,6 +67,17 @@
     ```bash
     sed "s/MY_EMAIL/$MY_EMAIL/g;s/AWS_ACCESS_KEY_ID/$AWS_ACCESS_KEY_ID/g;s/AWS_REGION/$AWS_REGION/g" letsencrypt-issuers-dns.template.yaml  > letsencrypt-issuers-dns.yaml
     ```
+1.  Remove AWS Credentials from env
+    ```bash
+    unset AWS_ACCESS_KEY_ID 
+    unset AWS_SECRET_ACCESS_KEY
+    ```
+    Or on fish
+    ```bash    
+    set AWS_ACCESS_KEY_ID
+    set AWS_SECRETE_ACCESS_KEY
+    ```
+
 1.  Create Cluster Issuer
     ```bash
     kubectl apply -f letsencrypt-issuers-dns.yaml
