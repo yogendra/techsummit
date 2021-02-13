@@ -16,12 +16,14 @@ There are 3 different environments setup in this.
 1.  AWS
     1.  AWS Account with Admin Access
     1.  AWS Programmatic Access (Access Key and Secret Key)
-    1.  [aws cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+    1.  [aws cli][aws-cli]
     1.  [eksctl](https://eksctl.io/)
+    1.  Logged into account via `aws configure`
 1.  VMware Tanzu
     1.  TMC Account
     1.  TO Account
-    1.  [AWS Account Connected](https://docs.vmware.com/en/VMware-Tanzu-Mission-Control/services/tanzumc-getstart/GUID-34E91A36-4D85-4AEF-9FDC-05D92E09BFFA.html)
+    1.  [AWS Account Connected][tmc-aws-connect]
+    1.  [Logged into account via `tmc` cli][tmc-login]
 1.  Kubernetes
     1.  [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
     1.  [kind cli](https://github.com/kubernetes-sigs/kind)
@@ -51,8 +53,12 @@ There are 3 different environments setup in this.
     direnv allow
     ```
 
-
 1.  Follow instruction in each env to setup the cluster and install applications
     1. [EKS](eks/README.md)
     2. [TKG on AWS](tkg-on-aws/README.md)
     3. [KiND cluster on local Docker](kind/README.md)
+
+
+[tmc-aws-connect]: https://docs.vmware.com/en/VMware-Tanzu-Mission-Control/services/tanzumc-getstart/GUID-34E91A36-4D85-4AEF-9FDC-05D92E09BFFA.html
+[aws-cli]: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html
+[tmc-login]: https://docs.vmware.com/en/VMware-Tanzu-Mission-Control/services/tanzumc-using/GUID-7EEBDAEF-7868-49EC-8069-D278FD100FD9.html
